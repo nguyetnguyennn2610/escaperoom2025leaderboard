@@ -134,7 +134,7 @@ function Leaderboard() {
         </div>
 
         <div className="sponsor-line">
-          Sponsored by: RCL Library Staff · Building and Tech Services · Event and Classroom Management · Hajim School Rettner Hall Fabrication Lab · Theater Department · Robbins Library · Studio X
+          Sponsored by: RCL Library Staff · Building and Tech Services · Event and Classroom Management · Hajim School Rettner Hall Fabrication Lab · Theater Department · Robbins Library · Studio X · Warren McGrail from University IT
         </div>
 
       </section>

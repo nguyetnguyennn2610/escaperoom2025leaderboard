@@ -1,20 +1,19 @@
-// src/Tips.jsx
 import React, { useEffect, useState } from "react";
-import { database, ref, onValue } from "./firebase"; 
+import { database, ref, onValue } from "./firebase"; // adjust path if needed
 import "./tips.css";
 
 function Tips() {
   const tips = [
-    "Think Simple: Easy over clever.",
-    "Search Thoroughly: Check everywhere.",
-    "Organize Items: Keep clues together.",
-    "Work Backward: Start from the lock.",
-    "Assign Roles: Divide and conquer.",
-    "Know Locks: Understand the types.",
-    "Spot Codes: Morse, Pigpen, Braille.",
-    "Look for Patterns: Colors, numbers, shapes.",
-    "Ask the GM: Hints keep you moving.",
-    "One Use Rule: Items rarely repeat."
+    "Think simple: easy over clever.",
+    "Search thoroughly: check everywhere.",
+    "Organize items: keep clues together.",
+    "Work backward: start from the lock.",
+    "Assign roles: divide and conquer.",
+    "Know locks: understand the types.",
+    "Spot codes: Morse, Pigpen, Braille.",
+    "Look for patterns: colors, numbers, shapes.",
+    "Ask the GM: hints keep you moving.",
+    "One use rule: items rarely repeat."
   ];
 
   const [teamOfTheDay, setTeamOfTheDay] = useState({
@@ -40,66 +39,48 @@ function Tips() {
 
   return (
     <div className="newspaper-wrap">
-      {/* Header */}
+      {/* ==== Newspaper header ==== */}
       <div className="newspaper-header-top">
-        <div className="left-header">Special Edition</div>
+        <div className="left-header">Breaking News</div>
         <div className="newspaper-name">The iZone Post</div>
-        <div className="right-header">Escape Guide</div>
+        <div className="right-header">September 18-21, 2025</div>
       </div>
 
-      {/* Masthead */}
+      {/* ==== Masthead ==== */}
       <header className="masthead">
-        <h1>10 Proven Escape Room Tips</h1>
+        <h1>10 PROVEN ESCAPE ROOM TIPS</h1>
         <div className="masthead-sub">
-          <span>Based on Mark Rober</span> · 
-          <span>Quick Survival Guide</span> · 
-          <span>2025</span>
+          <span>Since 2023</span> · <span>A Meliora Weekend Experience</span> · <span>3rd edition</span>
         </div>
       </header>
 
-      {/* Team of the Day image (live from Firebase) */}
+      {/* ==== Team of the Day (centered under masthead) ==== */}
       <div className="team-of-day">
-  {teamOfTheDay.img && (
-    <img src={teamOfTheDay.img} alt={teamOfTheDay.name} />
-  )}
-  <p><strong>{teamOfTheDay.name}</strong></p>
-</div>
+        <h2>Team of the Day</h2>
+        {teamOfTheDay?.img ? (
+          <img src={teamOfTheDay.img} alt="Team of the Day" />
+        ) : (
+          <img
+            src="https://via.placeholder.com/600x400.png?text=Loading..."
+            alt="Loading"
+          />
+        )}
+        {teamOfTheDay?.name && <p>{teamOfTheDay.name}</p>}
+      </div>
 
-      {/* Two-column tips layout */}
-      <section className="paper-columns">
-        <div className="paper-left">
-          <h2>Top Strategies</h2>
-          <ol>
-            {tips.map((tip, i) => (
-              <li key={i}>{tip}</li>
-            ))}
-          </ol>
-        </div>
+      {/* ==== Tips in two columns ==== */}
+      <div className="tips-section">
+        <h2>Top Strategies</h2>
+        <ol className="two-columns">
+          {tips.map((tip, index) => (
+            <li key={index}>{tip}</li>
+          ))}
+        </ol>
+      </div>
 
-        <div className="paper-right">
-          <h2>Quick Summary</h2>
-          <div className="stat-block">
-            <div className="stat-label">Mindset</div>
-            <div className="stat-value">Keep it Simple</div>
-          </div>
-          <div className="stat-block">
-            <div className="stat-label">Skill</div>
-            <div className="stat-value">Teamwork</div>
-          </div>
-          <div className="stat-block">
-            <div className="stat-label">Mistake</div>
-            <div className="stat-value">Reusing Items</div>
-          </div>
-          <div className="stat-block">
-            <div className="stat-label">Weapon</div>
-            <div className="stat-value">Ask GM</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
+      {/* ==== Sponsor line ==== */}
       <div className="sponsor-line">
-        Inspired by Mark Rober’s video: <em>“Beat Any Escape Room — 10 proven tricks and tips.”</em>
+        Sponsored by IZone Escape Team – “Unlocking Creativity”
       </div>
     </div>
   );

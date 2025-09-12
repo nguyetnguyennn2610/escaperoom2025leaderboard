@@ -50,9 +50,9 @@ body {
 }
 
 .masthead h1 {
-  font-size: 4rem;       /* larger font size */
+  font-size: 4rem;
   font-weight: 900;
-  text-align: center;    /* center align */
+  text-align: center;
   margin: 20px auto;
   color: #2b1f12;
 }
@@ -64,7 +64,7 @@ body {
   padding-bottom: 10px;
 }
 
-/* === Team of the Day section (right below masthead) === */
+/* === Team of the Day (centered) === */
 .team-of-day {
   text-align: center;
   margin: 25px auto 35px auto;
@@ -72,14 +72,14 @@ body {
 
 .team-of-day img {
   width: 100%;
-  max-width: 600px;      /* same width as reference image */
-  height: 400px;         /* fixed height for consistent size */
-  object-fit: cover;     /* crop proportionally to fill area */
+  max-width: 600px;
+  height: 400px;
+  object-fit: cover;
   border: 3px solid #2b1f12;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   background: #f1e7d6;
   display: block;
-  margin: 0 auto;        /* center image */
+  margin: 0 auto;
 }
 
 .team-of-day p {
@@ -89,60 +89,27 @@ body {
   color: #2b1f12;
 }
 
-/* === Two-column layout for tips and quick summary === */
-.paper-columns {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 20px;
+/* === Tips section in two columns === */
+.tips-section {
+  margin: 30px 0;
 }
 
-.paper-left {
-  flex: 2;
-  padding-right: 30px;
-  border-right: 1px solid #2b1f12;
+.tips-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
 }
 
-.paper-left ol {
-  font-size: 1.3rem;
+.tips-section ol {
+  column-count: 2;           /* 2-column layout */
+  column-gap: 40px;
+  font-size: 1.2rem;
   line-height: 1.8;
   margin-left: 20px;
 }
 
-.paper-left li {
+.tips-section li {
   margin-bottom: 12px;
-}
-
-.paper-right {
-  flex: 1;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  border: 1px solid #2b1f12;
-  background: rgba(225, 209, 187, 0.3);
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.paper-right h2 {
-  border-bottom: 1px solid #1a0f02;
-}
-
-.stat-block {
-  text-align: center;
-}
-
-.stat-label {
-  color: #555;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}
-
-.stat-value {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #2c2c2c;
+  break-inside: avoid;       /* prevent awkward splits */
 }
 
 /* === Bottom Sponsor line === */
@@ -157,3 +124,5 @@ body {
   color: #2b1f12;
   letter-spacing: 0.5px;
 }
+
+

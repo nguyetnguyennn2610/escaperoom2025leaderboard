@@ -1,9 +1,19 @@
 import { getDatabase, ref, onValue } from "firebase/database";
 import { app } from "./firebase";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./index.css";
 
 const db = getDatabase(app);
+
+// Fisher-Yates shuffle
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 function Leaderboard() {
   const [allTeams, setAllTeams] = useState([]);
@@ -14,7 +24,9 @@ function Leaderboard() {
     onValue(teamsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const allEntries = Object.values(data).filter(team => team.name && team.numPeople); // include all
+        const allEntries = Object.values(data).filter(
+          (team) => team.name && team.numPeople
+        ); // include all
         setAllTeams(allEntries);
       }
     });
@@ -31,8 +43,11 @@ function Leaderboard() {
     });
   }, []);
 
+  // Shuffle photo links once whenever the set changes
+  const shuffledPhotos = useMemo(() => shuffleArray(photoLinks), [photoLinks]);
+
   const topTeams = [...allTeams]
-    .filter(team => team.hints < 4)
+    .filter((team) => team.hints < 4)
     .sort((a, b) => a.ranking - b.ranking)
     .slice(0, 5);
 
@@ -42,19 +57,34 @@ function Leaderboard() {
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
     return teamTime > oneHourAgo;
   };
-  
+
   const totalGroups = allTeams.length;
-  const totalPeople = allTeams.reduce((sum, team) => sum + (team.numPeople || 0), 0);
-  const escapedGroups = allTeams.filter(team => team.rawTime < 3600).length;
-  const percentEscaped = totalGroups > 0 ? ((escapedGroups / totalGroups) * 100).toFixed(1) : "0.0";
+  const totalPeople = allTeams.reduce(
+    (sum, team) => sum + (team.numPeople || 0),
+    0
+  );
+  const escapedGroups = allTeams.filter((team) => team.rawTime < 3600).length;
+  const percentEscaped =
+    totalGroups > 0
+      ? ((escapedGroups / totalGroups) * 100).toFixed(1)
+      : "0.0";
 
   const escapedTimes = allTeams
-    .filter(team => team.rawTime < 3600)
-    .map(team => team.rawTime);
+    .filter((team) => team.rawTime < 3600)
+    .map((team) => team.rawTime);
 
   const avgEscapeTime =
     escapedTimes.length > 0
-      ? `${Math.floor(escapedTimes.reduce((a, b) => a + b, 0) / escapedTimes.length / 60)}:${String(Math.floor(escapedTimes.reduce((a, b) => a + b, 0) / escapedTimes.length % 60)).padStart(2, "0")}`
+      ? `${Math.floor(
+          escapedTimes.reduce((a, b) => a + b, 0) /
+            escapedTimes.length /
+            60
+        )}:${String(
+          Math.floor(
+            (escapedTimes.reduce((a, b) => a + b, 0) / escapedTimes.length) %
+              60
+          )
+        ).padStart(2, "0")}`
       : "N/A";
 
   return (
@@ -68,7 +98,9 @@ function Leaderboard() {
       <header className="masthead">
         <h1>CAVING GONE WRONG</h1>
         <div className="masthead-sub">
-          <span>Since 2023</span> · <span>A Meliora Weekend Experience</span> · <span>3rd edition</span>
+          <span>Since 2023</span> ·{" "}
+          <span>A Meliora Weekend Experience</span> ·{" "}
+          <span>3rd edition</span>
         </div>
       </header>
 
@@ -127,18 +159,23 @@ function Leaderboard() {
         <h2>Scenes from the Rescue</h2>
         <div className="gallery-container">
           <div className="gallery-track">
-            {[...photoLinks, ...photoLinks].map((url, index) => (
-              <img key={index} src={url} alt={`Team Highlight ${index + 1}`} />
+            {[...shuffledPhotos, ...shuffledPhotos].map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt={`Team Highlight ${index + 1}`}
+              />
             ))}
           </div>
         </div>
 
         <div className="sponsor-line">
-          Sponsored by: RCL Library Staff · Building and Tech Services · Event and Classroom Management · Hajim School Rettner Hall Fabrication Lab · Theater Department · Robbins Library · Studio X · Warren McGrail from University IT
+          Sponsored by: RCL Library Staff · Building and Tech Services ·
+          Event and Classroom Management · Hajim School Rettner Hall
+          Fabrication Lab · Theater Department · Robbins Library · Studio X ·
+          Warren McGrail from University IT
         </div>
-
       </section>
-
     </div>
   );
 }
